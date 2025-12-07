@@ -40,6 +40,7 @@ models/
 *.csv
 docs/memorization_explained.md
 docs/quick_reference.md
+results/simple_results/REPORT.md
 
 # Jupyter
 .ipynb_checkpoints/
