@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Generate simple synthetic medical records in JSONL format.
 Each record is a short "clinical note" with a patient id and a note text.
@@ -7,6 +6,7 @@ Each record is a short "clinical note" with a patient id and a note text.
 import json
 import random
 import argparse
+import os
 from tqdm import tqdm
 
 SYMPTOMS = [
@@ -52,6 +52,7 @@ def split_and_write(records, out_dir):
     split = int(0.7 * n)
     train = records[:split]
     test = records[split:]
+    os.makedirs(out_dir, exist_ok=True)
     with open(f"{out_dir}/synthetic_train.jsonl", "w") as f:
         for r in train:
             f.write(json.dumps(r) + "\n")

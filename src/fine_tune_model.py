@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Fine-tune a small causal LM (distilgpt2) on the synthetic clinical notes.
 This is intentionally minimal — meant for classroom demonstration.
@@ -12,6 +11,10 @@ from transformers import (
     Trainer, TrainingArguments, DataCollatorForLanguageModeling
 )
 import os
+import warnings
+
+# Suppress non-critical warnings
+warnings.filterwarnings("ignore")
 
 def load_jsonl(path):
     with open(path, "r") as f:
@@ -43,6 +46,7 @@ def main():
     # Simple tokenization step
     def tokenize_fn(ex):
         return tokenizer(ex["note"], truncation=True, padding="max_length", max_length=128)
+
     tokenized = dataset.map(tokenize_fn, batched=True, remove_columns=dataset.column_names)
 
     model = AutoModelForCausalLM.from_pretrained(args.model_name)
@@ -58,6 +62,7 @@ def main():
         learning_rate=5e-5,
         fp16=False,
         weight_decay=0.01,
+        dataloader_pin_memory=False,
     )
     trainer = Trainer(
         model=model,
