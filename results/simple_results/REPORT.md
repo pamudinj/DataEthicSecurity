@@ -1,7 +1,7 @@
 
 # Membership Inference Attacks on Medical LLMs - Research Report
 
-**Date:** 2025-12-07 11:00:50
+**Date:** 2026-02-16 13:53:59
 
 ## Executive Summary
 
@@ -13,7 +13,7 @@ techniques substantially reduce but do not eliminate this leakage.
 
 **Does a medical LLM fine-tuned on synthetic clinical notes leak training membership information?**
 
-**Answer:** YES - Membership inference attacks successfully identify training data with AUC-ROC of 0.6407.
+**Answer:** YES - Membership inference attacks successfully identify training data with AUC-ROC of 0.8025.
 
 ---
 
@@ -29,13 +29,13 @@ techniques substantially reduce but do not eliminate this leakage.
 
 #### 1. Baseline Model (No Regularization)
 - Fine-tuning: Standard approach
-- Epochs: 3
+- Epochs: 10
 - Learning Rate: 5e-5
 - No weight decay, no dropout, no early stopping
 
 #### 2. Improved Model (With Regularization)
 - Fine-tuning: With privacy protections
-- Epochs: 3
+- Epochs: 10
 - Learning Rate: 1e-5 (lower)
 - Weight Decay: 0.1 (L2 regularization)
 - Dropout: 0.1
@@ -55,49 +55,49 @@ techniques substantially reduce but do not eliminate this leakage.
 ```
 Training Data Statistics:
   - Count: 700
-  - Mean NLL: 0.7804
-  - Std Dev: 0.0683
+  - Mean NLL: 0.7595
+  - Std Dev: 0.0649
 
 Test Data Statistics:
   - Count: 300
-  - Mean NLL: 0.8203
-  - Std Dev: 0.0818
+  - Mean NLL: 0.8667
+  - Std Dev: 0.1020
 
-NLL Gap (Test - Train): 0.0399
-AUC-ROC: 0.6407
+NLL Gap (Test - Train): 0.1072
+AUC-ROC: 0.8025
 
-Status: ⚠️ WARNING: Significant membership leakage
+Status: 🔴 CRITICAL: Severe membership leakage
 ```
 
 ### Improved Model Results
 ```
 Training Data Statistics:
   - Count: 700
-  - Mean NLL: 0.8337
-  - Std Dev: 0.0818
+  - Mean NLL: 0.7888
+  - Std Dev: 0.0747
 
 Test Data Statistics:
   - Count: 300
-  - Mean NLL: 0.8500
+  - Mean NLL: 0.8473
   - Std Dev: 0.0835
 
-NLL Gap (Test - Train): 0.0163
-AUC-ROC: 0.5536
+NLL Gap (Test - Train): 0.0585
+AUC-ROC: 0.6930
 
-Status: ⚠️ CAUTION: Minor membership leakage
+Status: 🔴 CRITICAL: Severe membership leakage
 ```
 
 ### Improvement from Regularization
 ```
-NLL Gap Reduction: 0.0236
-  Percentage: 59.2%
+NLL Gap Reduction: 0.0487
+  Percentage: 45.4%
 
-AUC-ROC Reduction: 0.0870
-  From 0.6407 → 0.5536
+AUC-ROC Reduction: 0.1094
+  From 0.8025 → 0.6930
 
 Privacy Assessment:
-  Baseline: ⚠️ WARNING: Significant membership leakage
-  Improved: ⚠️ CAUTION: Minor membership leakage
+  Baseline: 🔴 CRITICAL: Severe membership leakage
+  Improved: 🔴 CRITICAL: Severe membership leakage
 ```
 
 ---
@@ -105,17 +105,17 @@ Privacy Assessment:
 ## Key Findings
 
 1. **Standard Fine-tuning is Vulnerable**
-   - AUC-ROC of 0.6407 indicates attackers can distinguish training data
-   - NLL gap of 0.0399 shows clear overfitting
+   - AUC-ROC of 0.8025 indicates attackers can distinguish training data
+   - NLL gap of 0.1072 shows clear overfitting
 
 2. **Regularization Reduces Leakage**
-   - Weight decay and early stopping decrease AUC-ROC by 0.0870
-   - NLL gap reduced by 59.2%
+   - Weight decay and early stopping decrease AUC-ROC by 0.1094
+   - NLL gap reduced by 45.4%
    - Privacy improved but not eliminated
 
 3. **Model Memorization is Detectable**
    - Lower NLL on training vs test is statistically significant
-   - Membership inference attack accuracy is 64.1%
+   - Membership inference attack accuracy is 80.2%
 
 ---
 
@@ -189,9 +189,9 @@ All code and data generation scripts are available in the project repository:
 
 Results are reproducible by running:
 ```bash
-python run_full_pipeline.py --data_type simple --n_records 1000 --epochs 3
+python run_full_pipeline.py --data_type simple --n_records 1000 --epochs 10
 ```
 
 ---
 
-**Report Generated:** 2025-12-07 11:00:50
+**Report Generated:** 2026-02-16 13:53:59

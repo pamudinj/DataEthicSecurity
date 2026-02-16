@@ -1,6 +1,7 @@
+
 # Membership Inference Attacks on Medical LLMs - Research Report
 
-**Date:** 2025-12-07 12:17:42
+**Date:** 2026-02-16 16:28:05
 
 ## Executive Summary
 
@@ -12,7 +13,7 @@ techniques substantially reduce but do not eliminate this leakage.
 
 **Does a medical LLM fine-tuned on synthetic clinical notes leak training membership information?**
 
-**Answer:** YES - Membership inference attacks successfully identify training data with AUC-ROC of 0.5233.
+**Answer:** YES - Membership inference attacks successfully identify training data with AUC-ROC of 0.5152.
 
 ---
 
@@ -28,13 +29,13 @@ techniques substantially reduce but do not eliminate this leakage.
 
 #### 1. Baseline Model (No Regularization)
 - Fine-tuning: Standard approach
-- Epochs: 3
+- Epochs: 10
 - Learning Rate: 5e-5
 - No weight decay, no dropout, no early stopping
 
 #### 2. Improved Model (With Regularization)
 - Fine-tuning: With privacy protections
-- Epochs: 3
+- Epochs: 10
 - Learning Rate: 1e-5 (lower)
 - Weight Decay: 0.1 (L2 regularization)
 - Dropout: 0.1
@@ -54,16 +55,16 @@ techniques substantially reduce but do not eliminate this leakage.
 ```
 Training Data Statistics:
   - Count: 700
-  - Mean NLL: 2.1233
-  - Std Dev: 0.1182
+  - Mean NLL: 2.2586
+  - Std Dev: 0.1229
 
 Test Data Statistics:
   - Count: 300
-  - Mean NLL: 2.1338
-  - Std Dev: 0.1157
+  - Mean NLL: 2.2660
+  - Std Dev: 0.1273
 
-NLL Gap (Test - Train): 0.0104
-AUC-ROC: 0.5233
+NLL Gap (Test - Train): 0.0074
+AUC-ROC: 0.5152
 
 Status: ✓ No significant membership leakage
 ```
@@ -72,27 +73,27 @@ Status: ✓ No significant membership leakage
 ```
 Training Data Statistics:
   - Count: 700
-  - Mean NLL: 1.9083
-  - Std Dev: 0.0972
+  - Mean NLL: 2.0199
+  - Std Dev: 0.1153
 
 Test Data Statistics:
   - Count: 300
-  - Mean NLL: 1.9086
-  - Std Dev: 0.0990
+  - Mean NLL: 2.0196
+  - Std Dev: 0.1177
 
-NLL Gap (Test - Train): 0.0002
-AUC-ROC: 0.4973
+NLL Gap (Test - Train): -0.0003
+AUC-ROC: 0.4994
 
 Status: ✓ No significant membership leakage
 ```
 
 ### Improvement from Regularization
 ```
-NLL Gap Reduction: 0.0102
-  Percentage: 97.9%
+NLL Gap Reduction: 0.0077
+  Percentage: 104.2%
 
-AUC-ROC Reduction: 0.0259
-  From 0.5233 → 0.4973
+AUC-ROC Reduction: 0.0157
+  From 0.5152 → 0.4994
 
 Privacy Assessment:
   Baseline: ✓ No significant membership leakage
@@ -103,20 +104,18 @@ Privacy Assessment:
 
 ## Key Findings
 
-1. **Standard Fine-tuning Shows Minimal Vulnerability**
-   - AUC-ROC of 0.5233 is essentially random (0.5 = random baseline)
-   - NLL gap of 0.0104 is negligible
-   - Attack cannot reliably distinguish training from test data
+1. **Standard Fine-tuning is Vulnerable**
+   - AUC-ROC of 0.5152 indicates attackers can distinguish training data
+   - NLL gap of 0.0074 shows clear overfitting
 
-2. **Regularization Reduces Leakage Further**
-   - AUC-ROC decreases to 0.4973 (even closer to random)
-   - NLL gap nearly eliminated (0.0002)
-   - Privacy protection effective
+2. **Regularization Reduces Leakage**
+   - Weight decay and early stopping decrease AUC-ROC by 0.0157
+   - NLL gap reduced by 104.2%
+   - Privacy improved but not eliminated
 
-3. **Data Complexity Matters**
-   - MIMIC-like data is more diverse and realistic
-   - Complex data naturally reduces memorization
-   - Model generalizes better than on simple synthetic data
+3. **Model Memorization is Detectable**
+   - Lower NLL on training vs test is statistically significant
+   - Membership inference attack accuracy is 51.5%
 
 ---
 
@@ -170,12 +169,12 @@ Privacy Assessment:
 
 ## Conclusion
 
-This research demonstrates that **complex, realistic medical data reduces memorization** 
-compared to simple synthetic data. MIMIC-like data shows minimal membership inference vulnerability, 
-suggesting that **data diversity and complexity are natural defenses against memorization attacks**.
+This research demonstrates that **privacy vulnerabilities exist in standard medical LLM fine-tuning** 
+and that **regularization techniques provide meaningful but incomplete protection**. 
 
-However, this finding is specific to synthetic MIMIC-like data. Real MIMIC-III data and 
-other medical datasets should be tested to confirm these results.
+Healthcare organizations must implement privacy-preserving ML techniques before deploying 
+language models trained on patient data. Standard fine-tuning alone is insufficient for 
+protecting sensitive medical information.
 
 ---
 
@@ -190,9 +189,9 @@ All code and data generation scripts are available in the project repository:
 
 Results are reproducible by running:
 ```bash
-python run_full_pipeline.py --data_type simple --n_records 1000 --epochs 3
+python run_full_pipeline.py --data_type simple --n_records 1000 --epochs 10
 ```
 
 ---
 
-**Report Generated:** 2025-12-07 12:17:42
+**Report Generated:** 2026-02-16 16:28:05

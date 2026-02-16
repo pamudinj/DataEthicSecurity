@@ -63,12 +63,12 @@ pip install -r requirements.txt
 
 **Simple Synthetic Data:**
 ```bash
-python run_full_pipeline.py --data_type simple --n_records 1000 --epochs 3
+python run_full_pipeline.py --data_type simple --n_records 1000 --epochs 10
 ```
 
 **MIMIC-like Realistic Data:**
 ```bash
-python run_full_pipeline.py --data_type mimic --n_records 1000 --epochs 3
+python run_full_pipeline.py --data_type mimic --n_records 1000 --epochs 10
 ```
 
 ## Output Files

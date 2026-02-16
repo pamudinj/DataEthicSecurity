@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-12-07T11:27:41.683557",
+  "timestamp": "2026-02-16T14:13:53.740347",
   "data_type": "mimic",
   "n_records": 1000,
-  "epochs": 3,
+  "epochs": 10,
   "weight_decay": 0.1,
   "dropout": 0.1,
   "learning_rate": 1e-05,
