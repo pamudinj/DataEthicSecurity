@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+mia/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project
+models/
+*.jsonl
+*.csv
+docs/memorization_explained.md
+docs/quick_reference.md
+docs/METHODOLOGY.md
+results/mimic_results/REPORT.md
+results/simple_results/REPORT.md
+test.py
+results1/
+
+# Jupyter
+.ipynb_checkpoints/

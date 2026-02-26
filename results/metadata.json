@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-02-16T14:13:53.740347",
+  "data_type": "mimic",
+  "n_records": 1000,
+  "epochs": 10,
+  "weight_decay": 0.1,
+  "dropout": 0.1,
+  "learning_rate": 1e-05,
+  "seed": 42,
+  "model": "distilgpt2",
+  "reproducibility": true
+}

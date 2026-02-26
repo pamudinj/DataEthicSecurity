@@ -1,0 +1,21 @@
+{
+  "data_type": "mimic",
+  "baseline": {
+    "train_nll_mean": 2.2586018700259074,
+    "test_nll_mean": 2.2660242080688477,
+    "gap": 0.007422338042940346,
+    "train_count": 700,
+    "test_count": 300
+  },
+  "improved": {
+    "train_nll_mean": 2.0198766909326826,
+    "test_nll_mean": 2.0195614643891653,
+    "gap": -0.000315226543517344,
+    "train_count": 700,
+    "test_count": 300
+  },
+  "improvement": {
+    "gap_reduction": 0.00773756458645769,
+    "percentage": 104.24699793641395
+  }
+}
